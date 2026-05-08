@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Regression Suite" verbose="1" parallel="tests" thread-count="3">
+    <!-- Customer API - Full -->
+    <test name="Customer API - Regression">
+        <classes>
+            <class name="com.stripe.automation.customer.CustomerCRUDFlowTest"/>
+            <class name="com.stripe.automation.customer.CreateCustomerTest"/>
+            <class name="com.stripe.automation.customer.UpdateCustomerTest"/>
+            <class name="com.stripe.automation.customer.DeleteCustomerTest"/>
+        </classes>
+    </test>
+</suite>

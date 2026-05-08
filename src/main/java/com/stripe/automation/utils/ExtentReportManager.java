@@ -12,8 +12,21 @@ public class ExtentReportManager {
 
     public static ExtentReports getInstance() {
         if (extent == null) {
-            ExtentSparkReporter spark = new ExtentSparkReporter("test-reports/extent-report.html");
+            String suiteFile = System.getProperty("suiteXmlFile", "regression");
+            String reportName;
+            String reportFile;
+
+            if (suiteFile.contains("smoke")) {
+                reportFile = "test-reports/smoke-report.html";
+                reportName = "Stripe API — Smoke Tests";
+            } else {
+                reportFile = "test-reports/regression-report.html";
+                reportName = "Stripe API — Regression Tests";
+            }
+            ExtentSparkReporter spark = new ExtentSparkReporter(reportFile);
             spark.config().setTheme(Theme.STANDARD);
+            spark.config().setDocumentTitle(reportName);
+            spark.config().setReportName(reportName);
             spark.config().setDocumentTitle("Stripe API Test Report");
             spark.config().setReportName("Stripe API Automation");
             spark.config().setTimeStampFormat("yyyy-MM-dd HH:mm:ss");
@@ -21,6 +34,7 @@ public class ExtentReportManager {
             extent = new ExtentReports();
             extent.setSystemInfo("Framework", "RestAssured + TestNG");
             extent.setSystemInfo("API", "Stripe Sandbox");
+            extent.setSystemInfo("Suite", suiteFile.contains("smoke") ? "Smoke" : "Regression");
             extent.setSystemInfo("Environment", "Test");
             extent.setSystemInfo("Java Version", System.getProperty("java.version"));
             extent.attachReporter(spark);
