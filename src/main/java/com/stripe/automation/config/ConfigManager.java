@@ -1,10 +1,13 @@
 package com.stripe.automation.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigManager {
-
+    private static final Logger logger = LoggerFactory.getLogger(ConfigManager.class);
     private static final Properties properties;
 
       static {
@@ -13,15 +16,19 @@ public class ConfigManager {
               env = "dev";
           }
           String configFile="config/"+env+".properties";
+          logger.info("Loading config from: {}", configFile);
           properties = new Properties();
           try (InputStream inputStream = ConfigManager.class.getClassLoader().getResourceAsStream(configFile)) {
                 if (inputStream != null) {
                     properties.load(inputStream);
+                    logger.info("Config loaded successfully. Base URL: {}", properties.getProperty("base.url"));
+
                 } else {
                     throw new RuntimeException("Configuration file not found: " + configFile);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Failed to load configuration: " + e.getMessage(), e);
+              logger.error("Failed to load config: {}", e.getMessage());
+              throw new RuntimeException("Failed to load configuration: " + e.getMessage(), e);
           }
       }
 

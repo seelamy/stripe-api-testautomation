@@ -78,4 +78,9 @@ public class CustomerBuilder {
     public Map<String, Object> build() {
         return params;
     }
+
+    public CustomerBuilder withMetadataMap(Map<String, String> metadata) {
+        metadata.forEach((key, value) -> params.put("metadata[" + key + "]", value));
+        return this;
+    }
 }
