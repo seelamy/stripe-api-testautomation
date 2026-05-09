@@ -1,6 +1,10 @@
 package com.stripe.automation.base;
 
+import com.stripe.automation.models.Refund;
 import com.stripe.automation.services.CustomerService;
+import com.stripe.automation.services.PaymentIntentService;
+import com.stripe.automation.services.PaymentMethodService;
+import com.stripe.automation.services.RefundService;
 import com.stripe.automation.utils.ExtentTestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,9 @@ import java.util.List;
 @Listeners(ExtentTestListener.class)
 public class BaseTest {
     protected CustomerService customerService;
+    protected PaymentMethodService paymentMethodService;
+    protected PaymentIntentService paymentIntentService;
+    protected RefundService refundService;
     protected List<String> createdCustomerIds;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
@@ -20,6 +27,9 @@ public class BaseTest {
     public void setup() {
         logger.info("========== TEST SETUP ==========");
         customerService = new CustomerService();
+        paymentMethodService = new PaymentMethodService();
+        paymentIntentService = new PaymentIntentService();
+        refundService = new RefundService();
         createdCustomerIds = new ArrayList<>();
         logger.info("CustomerService initialized");
 

@@ -7,6 +7,13 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class ExtentTestListener implements ITestListener {
+
+    @Override
+    public void onStart(ITestContext context) {
+        String suiteName = context.getSuite().getName();
+        ExtentReportManager.initReport(suiteName);
+    }
+
     @Override
     public void onTestStart(ITestResult result) {
         String description = result.getMethod().getDescription();
@@ -38,7 +45,6 @@ public class ExtentTestListener implements ITestListener {
         ExtentReportManager.getTest().log(Status.FAIL, "<pre>" + stackTrace + "</pre>");
     }
 
-
     @Override
     public void onTestSkipped(ITestResult result) {
         String reason = result.getThrowable() != null
@@ -63,5 +69,4 @@ public class ExtentTestListener implements ITestListener {
         }
         return sb.toString();
     }
-
 }

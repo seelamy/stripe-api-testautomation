@@ -50,4 +50,46 @@ public class ResponseSpec {
                 .build();
     }
 
+    public static ResponseSpecification paymentIntentSuccess() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(StatusCodes.OK)
+                .expectBody("object", equalTo("payment_intent"))
+                .expectBody("id", startsWith("pi_"))
+                .expectBody("livemode", equalTo(false))
+                .build();
+    }
+    public static ResponseSpecification paymentIntentSucceeded() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(StatusCodes.OK)
+                .expectBody("object", equalTo("payment_intent"))
+                .expectBody("id", startsWith("pi_"))
+                .expectBody("status", equalTo("succeeded"))
+                .build();
+    }
+
+    public static ResponseSpecification paymentMethodSuccess() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(StatusCodes.OK)
+                .expectBody("object", equalTo("payment_method"))
+                .expectBody("id", startsWith("pm_"))
+                .build();
+    }
+
+    public static ResponseSpecification refundSuccess() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(StatusCodes.OK)
+                .expectBody("object", equalTo("refund"))
+                .expectBody("id", startsWith("re_"))
+                .expectBody("status", equalTo("succeeded"))
+                .build();
+    }
+
+    public static ResponseSpecification cardDeclined() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(StatusCodes.REQUEST_FAILED)
+                .expectBody("error.type", equalTo("card_error"))
+                .expectBody("error.code", equalTo("card_declined"))
+                .build();
+    }
+
 }

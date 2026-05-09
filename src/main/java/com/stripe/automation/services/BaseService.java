@@ -79,4 +79,16 @@ public class BaseService {
         return response;
     }
 
+    protected Response postWithIdempotencyKey(String endpoint, Map<String, Object> params, String idempotencyKey) {
+        logger.info("POST {} with params: {} | Idempotency-Key: {}", endpoint, params, idempotencyKey);
+        RequestSpecification spec = given().spec(RequestSpec.getBaseSpec());
+        spec.header("Idempotency-Key", idempotencyKey);
+        params.forEach((key, value) -> spec.formParam(key, value));
+        Response response = spec.when().post(endpoint);
+        logger.info("Response status: {} | Body: {}", response.statusCode(), response.body().asString());
+        logToReport("POST", endpoint, params, response);
+        return response;
+    }
+
+
 }
